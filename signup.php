@@ -1,12 +1,18 @@
 <?php
 require_once "functions.php";
 require_once "header.php";
-if(isset($_POST) && !empty($_POST)){
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $password = password_hash($password, PASSWORD_ARGON2I);
-    var_dump($password);
-    signUp($email, $password);  
+if(isset($_POST) && !empty($_POST)){    
+    $email = secureEmail($_POST["email"]);
+    if($email){
+        $password = $_POST["password"];
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        signUp($email, $password);
+    }
+    else{
+        echo "Cette adresse email n'est pas valide";
+    }
+
+  
 }
 ?>
 

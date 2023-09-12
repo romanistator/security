@@ -50,4 +50,11 @@ function signUp($email, $password){
     $stmt->bindParam(":pass",$password);
     $stmt->execute();
 }
-//password_hash
+
+function secureEmail($email){
+    $sanitize = filter_var($email,FILTER_SANITIZE_EMAIL);
+    if(filter_var($sanitize, FILTER_VALIDATE_EMAIL)){
+        return $validate;
+    }
+    
+}

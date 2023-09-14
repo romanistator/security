@@ -20,7 +20,12 @@ function login($email, $password){
 
     if($user && password_verify($password, $passwordSaved)){
         //comparaison du password saisi avec celui de la bdd
-        echo "Utilisateur connecté";
+        //echo "Utilisateur connecté";
+        session_start();                //ouverture de session à répéter sur les pages ayant besoin de récupérer les valeurs
+        $_SESSION["user"] = [           //on récupére dans $_SESSION un tableau
+            "id" => $user["id_users"],  //avec l'id du membre
+            "email" => $user["email"],  //et son email
+        ];
     }
     else{
         echo "Mauvais mot de passe";

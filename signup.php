@@ -1,29 +1,34 @@
 <?php
-require_once "functions.php";
-require_once "header.php";
-if(isset($_POST) && !empty($_POST)){
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $password = password_hash($password, PASSWORD_ARGON2I);
-    var_dump($password);
-    signUp($email, $password);  
+session_start();
+require_once 'functions.php';
+
+
+if(isset($_POST) && !empty($_POST)){ 
+$email = secure_email($_POST['email']);
+if ($email){ 
+//on hash le mot de passe ici. On le verify dans les functions, dans la fonction login
+$password = $_POST['password'];
+$hashpassword = password_hash ($password, PASSWORD_ARGON2I); // on peut mettre aussi PASSWORD_DEFAULT (il se met a jour automatic)
+addMember($email, $hashpassword);
+}else {
+    echo "cette adresse mail n'est pas valide";
 }
+
+}
+
+
 ?>
 
-<body>
-    <main class="container">
-        <h1 class="text-center">Inscrivez vous</h1>
-        <form class="text-center" action ="" method ="post">
-            <div>
-                <label for="email" >Email</label>
-                <input class="mt-3 form-control" type="mail" name="email" id="email">
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input class="mt-3 text-center form-control" type="password" name="password" id="password">
-            </div>
-            <input class="mt-3" type="submit" value="Inscrire">
-        </form>
-    </main>
-</body>
-</html>
+<main class="container text-center">
+<form action="" method="post">
+
+
+<label for="email">Email</label>
+<input id="email" name="email" type="email" class="form-control">
+
+<label for="password">Password</label>
+<input id="password" name="password" type="text" class="form-control">
+
+<input type="submit" value="Ajouter" class="btn bg-primary-subtle bg-warning-subtle  ">
+
+</form>
